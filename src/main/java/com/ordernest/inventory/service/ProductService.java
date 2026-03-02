@@ -10,10 +10,12 @@ import com.ordernest.inventory.repository.ProductRepository;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ProductService {
 
@@ -75,6 +77,25 @@ public class ProductService {
         Product product = findProductById(id);
         product.setAvailableQuantity(request.availableQuantity());
         return mapToResponse(productRepository.save(product));
+    }
+
+    @Transactional
+    public void releaseProductStock(UUID productId, Integer quantity) {
+        if (productId == null || quantity == null || quantity <= 0) {
+            log.warn("Skipping inventory release due to invalid payload. productId={}, quantity={}", productId, quantity);
+            return;
+        }
+
+        productRepository.findById(productId).ifPresentOrElse(
+                product -> {
+                    int current = product.getAvailableQuantity() == null ? 0 : product.getAvailableQuantity();
+                    product.setAvailableQuantity(current + quantity);
+                    productRepository.save(product);
+                    log.info("Released inventory for failed payment. productId={}, quantity={}, newAvailableQuantity={}",
+                            productId, quantity, product.getAvailableQuantity());
+                },
+                () -> log.warn("Skipping inventory release because product does not exist. productId={}", productId)
+        );
     }
 
     @Transactional
