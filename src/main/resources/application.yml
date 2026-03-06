@@ -39,8 +39,10 @@ app:
   kafka:
     topic:
       payment-events: ${PAYMENT_EVENTS_TOPIC:payment.events}
+      order-cancelled-events: ${ORDER_CANCELLED_EVENTS_TOPIC:order.cancelled.events}
     consumer:
       group-id: ${PAYMENT_EVENTS_CONSUMER_GROUP_ID:ordernest-inventory-service-payment-failed-consumer}
+      order-cancelled-group-id: ${ORDER_CANCELLED_EVENTS_CONSUMER_GROUP_ID:ordernest-inventory-service-order-cancelled-consumer}
   seed:
     enabled: true
   jwt:
