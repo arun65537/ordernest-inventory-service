@@ -46,4 +46,5 @@ app:
   seed:
     enabled: true
   jwt:
+    jwks-url: ${SSO_JWKS_URL:}
     secret: ${JWT_SECRET:change-me-in-prod-change-me-in-prod-change-me}
