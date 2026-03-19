@@ -42,7 +42,7 @@ Current JPA mode:
 From this directory:
 
 ```powershell
-..\ordernest-auth-service\gradlew.bat -p . bootRun
+..\sso-service\gradlew.bat -p . bootRun
 ```
 
 Default URL: `http://localhost:8080`
@@ -54,7 +54,7 @@ All product endpoints require:
 Authorization: Bearer <jwt-token>
 ```
 
-Use token from `ordernest-auth-service` login.
+Use token from `sso-service` login.
 
 ## API
 Base path: `/api/products`
