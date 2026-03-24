@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "OrderNest Inventory Service API",
+    "_postman_id": "2f8b2296-e0b7-4eb7-9870-2f4e0af5a0ba",
+    "description": "Simple collection for inventory-service APIs via direct service URL.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://ordernest-inventory-service.onrender.com" },
+    { "key": "productId", "value": "00000000-0000-0000-0000-000000000000" },
+    { "key": "page", "value": "0" },
+    { "key": "size", "value": "10" },
+    { "key": "newStock", "value": "15" }
+  ],
+  "item": [
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products"]
+            }
+          }
+        },
+        {
+          "name": "Get Products (Paginated)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/products/paginated?page={{page}}&size={{size}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products", "paginated"],
+              "query": [
+                { "key": "page", "value": "{{page}}" },
+                { "key": "size", "value": "{{size}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Product By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products", "{{productId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Product Stock (Admin via API Gateway)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer <admin-access-token>" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"availableQuantity\": {{newStock}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{productId}}/stock",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products", "{{productId}}", "stock"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Docs and Health",
+      "item": [
+        {
+          "name": "Swagger UI",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/swagger-ui/index.html",
+              "host": ["{{baseUrl}}"],
+              "path": ["swagger-ui", "index.html"]
+            }
+          }
+        },
+        {
+          "name": "OpenAPI JSON",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/v3/api-docs",
+              "host": ["{{baseUrl}}"],
+              "path": ["v3", "api-docs"]
+            }
+          }
+        },
+        {
+          "name": "Actuator Health",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/actuator/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["actuator", "health"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -2,6 +2,8 @@ server:
   port: 8081
 
 spring:
+  cache:
+    type: redis
   kafka:
     bootstrap-servers: ${KAFKA_SERVICE_URL:kafka-877fe57-ordernest.i.aivencloud.com:14046}
     consumer:
@@ -35,6 +37,14 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      username: ${REDIS_USERNAME:}
+      password: ${REDIS_PASSWORD:}
+      timeout: 2s
+
 app:
   kafka:
     topic:
@@ -45,5 +55,3 @@ app:
       order-cancelled-group-id: ${ORDER_CANCELLED_EVENTS_CONSUMER_GROUP_ID:ordernest-inventory-service-order-cancelled-consumer}
   seed:
     enabled: true
-  jwt:
-    secret: ${JWT_SECRET:change-me-in-prod-change-me-in-prod-change-me}

@@ -1,110 +1,58 @@
 # Inventory Service
 
-Spring Boot inventory service for OrderNest.  
-Provides secured product APIs with PostgreSQL persistence and startup sample-data seeding.
+Product inventory service for OrderNest.
 
-## Tech Stack
-- Java 17
-- Spring Boot 3.3.5
-- Spring Security
-- Spring Data JPA
-- PostgreSQL
-- JWT (`jjwt`)
+Local URL: `http://localhost:8081`  
+Live URL: `https://ordernest-inventory-service.onrender.com`
 
-## Features
-- JWT-protected product APIs
-- Product CRUD operations
-- Stock-only update endpoint
-- Validation + consistent error responses
-- Auto-seed of 10 sample products on startup (idempotent by product name)
+## What it does
+- Returns product list and product details
+- Supports paginated products
+- Supports stock update endpoint
+- Caches paginated responses in Redis (cache per page+size)
 
-## Prerequisites
-- JDK 17+
-- PostgreSQL database
-- Gradle wrapper (you can use wrapper from sibling service if this module has no wrapper)
+## Security model
+- Inventory service does **not** validate JWT by itself.
+- Authentication/authorization is handled at API Gateway.
+- `PATCH /api/products/{id}/stock` is restricted to `ADMIN` in API Gateway.
 
-## Configuration
-File: `src/main/resources/application.yml`
+## Run locally
+```powershell
+.\gradlew.bat bootRun
+```
 
-Required env vars:
-- `DB_URL`
+## Required config
 - `DB_USERNAME`
 - `DB_PASSWORD`
-- `JWT_SECRET` (must match auth service signing secret)
 
-Optional:
-- `app.seed.enabled` (default `true`)
-
-Current JPA mode:
-- `spring.jpa.hibernate.ddl-auto=update`
-
-## Run Locally
-From this directory:
-
-```powershell
-..\sso-service\gradlew.bat -p . bootRun
-```
-
-Default URL: `http://localhost:8080`
-
-## Authentication
-All product endpoints require:
-
-```http
-Authorization: Bearer <jwt-token>
-```
-
-Use token from `sso-service` login.
+## Redis cache config
+- `REDIS_HOST` (default: `localhost`)
+- `REDIS_PORT` (default: `6379`)
+- `REDIS_USERNAME` (optional)
+- `REDIS_PASSWORD` (optional)
 
 ## API
-Base path: `/api/products`
+- `GET /api/products`
+- `GET /api/products/paginated?page=0&size=10`
+- `GET /api/products/{id}`
+- `PATCH /api/products/{id}/stock`
 
-1. `GET /api/products`
-- List all products
-
-2. `GET /api/products/{id}`
-- Fetch one product by UUID
-
-3. `POST /api/products`
-- Create product
-
-Request body:
-```json
-{
-  "name": "Laptop",
-  "price": 75000,
-  "currency": "INR",
-  "availableQuantity": 10,
-  "description": "High-performance laptop suitable for development and gaming."
-}
-```
-
-4. `PUT /api/products/{id}`
-- Full product update
-
-5. `PATCH /api/products/{id}/stock`
-- Update stock only
-
-Request body:
+Example stock update body:
 ```json
 {
   "availableQuantity": 20
 }
 ```
 
-6. `DELETE /api/products/{id}`
-- Delete product
+## Swagger
+- Local Swagger UI: `http://localhost:8081/swagger-ui/index.html`
+- Local OpenAPI JSON: `http://localhost:8081/v3/api-docs`
+- Live Swagger UI: `https://ordernest-inventory-service.onrender.com/swagger-ui/index.html`
+- Live OpenAPI JSON: `https://ordernest-inventory-service.onrender.com/v3/api-docs`
 
-## Error Responses
-- `400` validation errors
-- `401` unauthorized / missing token
-- `404` product not found
-- `409` duplicate product name
-- `500` unexpected server error
+## Health
+- `http://localhost:8081/actuator/health`
+- `https://ordernest-inventory-service.onrender.com/actuator/health`
 
-## Seed Data Behavior
-On startup, service checks the 10 default sample products by name:
-- If name exists, it is skipped
-- If missing, it is inserted
-
-This makes seeding safe across restarts.
+## Postman
+- `postman/ordernest-inventory-service.postman_collection.json`
