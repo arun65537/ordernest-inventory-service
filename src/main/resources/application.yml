@@ -57,3 +57,12 @@ app:
       order-cancelled-group-id: ordernest-inventory-service-order-cancelled-consumer
   seed:
     enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
