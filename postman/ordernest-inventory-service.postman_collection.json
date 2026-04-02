@@ -2,11 +2,11 @@
   "info": {
     "name": "OrderNest Inventory Service API",
     "_postman_id": "2f8b2296-e0b7-4eb7-9870-2f4e0af5a0ba",
-    "description": "Simple collection for inventory-service APIs via direct service URL.",
+    "description": "Simple collection for inventory-service APIs via API Gateway.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    { "key": "baseUrl", "value": "https://ordernest-inventory-service.onrender.com" },
+    { "key": "baseUrl", "value": "https://ordernest-api-gateway.onrender.com" },
     { "key": "productId", "value": "00000000-0000-0000-0000-000000000000" },
     { "key": "page", "value": "0" },
     { "key": "size", "value": "10" },

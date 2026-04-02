@@ -4,6 +4,7 @@ Product inventory service for OrderNest.
 
 Local URL: `http://localhost:8081`  
 Live URL: `https://ordernest-inventory-service.onrender.com`
+API Gateway URL: `https://ordernest-api-gateway.onrender.com`
 
 ## What it does
 - Returns product list and product details
@@ -32,6 +33,7 @@ Live URL: `https://ordernest-inventory-service.onrender.com`
 - `REDIS_PASSWORD` (optional)
 
 ## API
+Gateway base URL: `https://ordernest-api-gateway.onrender.com`
 - `GET /api/products`
 - `GET /api/products/paginated?page=0&size=10`
 - `GET /api/products/{id}`
@@ -47,6 +49,7 @@ Example stock update body:
 ## Swagger
 - Local Swagger UI: `http://localhost:8081/swagger-ui/index.html`
 - Local OpenAPI JSON: `http://localhost:8081/v3/api-docs`
+- API calls should use gateway base URL: `https://ordernest-api-gateway.onrender.com`
 - Live Swagger UI: `https://ordernest-inventory-service.onrender.com/swagger-ui/index.html`
 - Live OpenAPI JSON: `https://ordernest-inventory-service.onrender.com/v3/api-docs`
 
