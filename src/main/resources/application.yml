@@ -58,11 +58,9 @@ spring:
 app:
   kafka:
     topic:
-      payment-events: payment.events
-      order-cancelled-events: order.cancelled.events
+      order-status-events: order.status.events
     consumer:
-      group-id: ordernest-inventory-service-payment-failed-consumer
-      order-cancelled-group-id: ordernest-inventory-service-order-cancelled-consumer
+      order-status-group-id: ordernest-inventory-service-order-status-consumer
   seed:
     enabled: true
 
