@@ -7,3 +7,6 @@ out/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local secrets
+etc/secrets/config.properties
