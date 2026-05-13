@@ -10,3 +10,6 @@ Thumbs.db
 
 # Local secrets
 etc/secrets/config.properties
+
+# Environment-specific prod profile (provided via CI secret)
+src/main/resources/application-prod.yml
